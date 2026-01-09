@@ -208,6 +208,9 @@ export default function Home() {
         }
       } catch (streamError) {
         // Check if request was aborted
+        if (streamError instanceof Error && streamError.name === 'AbortError') {
+          return;
+        }
         if (abortController.signal.aborted) {
           return;
         }
