@@ -102,7 +102,7 @@ export default function ChatMessage({
             <div className="leading-relaxed text-[15px]">
               {isUser ? (
                 <div className="whitespace-pre-wrap break-words">{message.content}</div>
-              ) : (
+              ) : message.content.trim() ? (
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   className="prose prose-sm dark:prose-invert max-w-none
@@ -113,6 +113,12 @@ export default function ChatMessage({
                 >
                   {message.content}
                 </ReactMarkdown>
+              ) : (
+                <div className="flex space-x-1.5">
+                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full animate-bounce"></div>
+                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.15s" }}></div>
+                  <div className="w-2.5 h-2.5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full animate-bounce" style={{ animationDelay: "0.3s" }}></div>
+                </div>
               )}
             </div>
           )}

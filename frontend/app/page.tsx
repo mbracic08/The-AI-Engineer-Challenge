@@ -377,20 +377,6 @@ export default function Home() {
                 canRegenerate={canRegenerate}
               />
             ))}
-            {isLoading && (
-              <div className="flex items-start gap-3 justify-start animate-fade-in">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-md">
-                  <span className="text-white text-sm font-semibold">AI</span>
-                </div>
-                <div className="bg-white dark:bg-gray-800 rounded-2xl rounded-tl-md px-6 py-4 shadow-lg border border-gray-100 dark:border-gray-700 max-w-[75%]">
-                  <div className="flex space-x-1.5">
-                    <div className="w-2.5 h-2.5 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-full animate-bounce"></div>
-                    <div className="w-2.5 h-2.5 bg-gradient-to-br from-indigo-500 to-blue-500 rounded-full animate-bounce" style={{ animationDelay: "0.15s" }}></div>
-                    <div className="w-2.5 h-2.5 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full animate-bounce" style={{ animationDelay: "0.3s" }}></div>
-                  </div>
-                </div>
-              </div>
-            )}
             {error && (
               <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
                 <p className="text-red-800 dark:text-red-200 text-sm">
