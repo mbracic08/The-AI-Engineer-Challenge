@@ -106,10 +106,6 @@ export default function Home() {
       lastUserMessageRef.current = message;
     }
 
-    setMessages(messagesToSend);
-    setIsLoading(true);
-    setError(null);
-
     // Create assistant message placeholder for streaming
     const assistantMessageId = generateMessageId();
     const assistantMessage: Message = {
@@ -118,7 +114,11 @@ export default function Home() {
       timestamp: new Date(),
       id: assistantMessageId,
     };
-    setMessages((prev) => [...prev, assistantMessage]);
+    
+    // Set messages with user message and empty assistant placeholder in one update
+    setMessages([...messagesToSend, assistantMessage]);
+    setIsLoading(true);
+    setError(null);
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
