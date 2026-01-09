@@ -45,7 +45,7 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
 
   return (
     <form onSubmit={handleSubmit} className="relative">
-      <div className="relative flex items-end gap-3 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border-2 border-gray-200/60 dark:border-gray-700/60 shadow-lg hover:shadow-xl transition-all duration-300 focus-within:border-blue-500 dark:focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/20 dark:focus-within:ring-blue-400/20">
+      <div className="relative flex items-end gap-3 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border-2 border-gray-200/60 dark:border-gray-700/60 transition-all duration-300 focus-within:border-blue-500 dark:focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-500/20 dark:focus-within:ring-blue-400/20">
         {/* Textarea */}
         <textarea
           ref={textareaRef}
@@ -80,7 +80,7 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
           <button
             type="submit"
             disabled={!message.trim() || disabled}
-            className="group relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed text-white shadow-md hover:shadow-lg active:shadow-md transition-all duration-200 hover:scale-105 active:scale-95 disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
+            className="group relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 disabled:from-gray-300 disabled:to-gray-400 disabled:cursor-not-allowed text-white transition-all duration-200 hover:scale-105 active:scale-95 disabled:hover:scale-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
           >
             <svg
               className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-disabled:translate-x-0"
@@ -92,7 +92,7 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2.5}
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                d="M13 7l5 5m0 0l-5 5m5-5H6"
               />
             </svg>
             
