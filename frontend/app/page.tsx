@@ -7,6 +7,8 @@ import QuickPrompts from "@/components/QuickPrompts";
 import Toast from "@/components/Toast";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import ScrollToBottom from "@/components/ScrollToBottom";
+import AnimatedBackground from "@/components/AnimatedBackground";
+import Logo from "@/components/Logo";
 import { 
   saveConversation, 
   getCurrentConversationId, 
@@ -265,17 +267,16 @@ export default function Home() {
   const canRegenerate = !isLoading && lastMessage?.role === "assistant" && messages.length > 1;
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="flex flex-col h-screen relative">
+      <AnimatedBackground />
       {/* Header */}
       <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center shadow-md">
-                <span className="text-xl">💭</span>
-              </div>
+              <Logo size="md" />
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent dark:from-blue-400 dark:to-indigo-400">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">
                   Mental Coach
                 </h1>
                 <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">
@@ -320,10 +321,10 @@ export default function Home() {
           {messages.length === 0 && (
             <div className="flex flex-col items-center justify-center h-full text-center py-12 animate-fade-in">
               <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-10 shadow-2xl max-w-lg border border-gray-200/50 dark:border-gray-700/50">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center shadow-lg animate-pulse">
-                  <span className="text-4xl">💭</span>
+                <div className="mx-auto mb-6 flex justify-center">
+                  <Logo size="lg" />
                 </div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
                   Welcome to Mental Coach!
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
