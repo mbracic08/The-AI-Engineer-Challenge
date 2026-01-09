@@ -110,9 +110,19 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
 
+    // Create assistant message placeholder for streaming
+    const assistantMessageId = generateMessageId();
+    const assistantMessage: Message = {
+      role: "assistant",
+      content: "",
+      timestamp: new Date(),
+      id: assistantMessageId,
+    };
+    setMessages((prev) => [...prev, assistantMessage]);
+
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-      const response = await fetch(`${apiUrl}/api/chat`, {
+      const response = await fetch(`${apiUrl}/api/chat/stream`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -121,28 +131,56 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      const data = await response.json();
-      const assistantMessage: Message = {
-        role: "assistant",
-        content: data.reply,
-        timestamp: new Date(),
-        id: generateMessageId(),
-      };
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedContent = "";
 
-      setMessages((prev) => [...prev, assistantMessage]);
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          const chunk = decoder.decode(value);
+          const lines = chunk.split("\n\n");
+
+          for (const line of lines) {
+            if (line.startsWith("data: ")) {
+              try {
+                const data = JSON.parse(line.slice(6));
+                if (data.token) {
+                  accumulatedContent += data.token;
+                  setMessages((prev) =>
+                    prev.map((msg) =>
+                      msg.id === assistantMessageId
+                        ? { ...msg, content: accumulatedContent }
+                        : msg
+                    )
+                  );
+                } else if (data.done) {
+                  // Streaming complete
+                  break;
+                } else if (data.error) {
+                  throw new Error(data.error);
+                }
+              } catch (e) {
+                // Skip invalid JSON
+              }
+            }
+          }
+        }
+      }
     } catch (err) {
+      // Remove the placeholder message on error
+      setMessages((prev) => prev.filter((msg) => msg.id !== assistantMessageId));
       const errorMessage =
         err instanceof Error
           ? err.message
           : "Failed to get response. Please make sure the backend is running on http://localhost:8000";
       setError(errorMessage);
       console.error("Error sending message:", err);
-      // Restore previous messages if error
-      setMessages(messages);
     } finally {
       setIsLoading(false);
     }
