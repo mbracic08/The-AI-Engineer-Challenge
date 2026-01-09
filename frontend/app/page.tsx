@@ -37,6 +37,7 @@ export default function Home() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
   const lastUserMessageRef = useRef<string>("");
+  const abortControllerRef = useRef<AbortController | null>(null);
 
   // Initialize conversation ID
   useEffect(() => {
@@ -86,6 +87,15 @@ export default function Home() {
 
   const generateMessageId = () => `msg-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
+  const handleStopGeneration = () => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+      abortControllerRef.current = null;
+    }
+    setIsLoading(false);
+    setToast("Generation stopped");
+  };
+
   const handleSendMessage = async (message: string, isRegenerate = false) => {
     if (!message.trim() || isLoading) return;
 
@@ -122,6 +132,10 @@ export default function Home() {
     setIsLoading(true);
     setError(null);
 
+    // Create new AbortController for this request
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
       
@@ -133,6 +147,7 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ message }),
+          signal: abortController.signal,
         });
 
         if (!response.ok) {
@@ -150,6 +165,12 @@ export default function Home() {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
+          
+          // Check if request was aborted
+          if (abortController.signal.aborted) {
+            reader.cancel();
+            break;
+          }
 
           const chunk = decoder.decode(value, { stream: true });
           const lines = chunk.split("\n");
@@ -186,6 +207,11 @@ export default function Home() {
           }
         }
       } catch (streamError) {
+        // Check if request was aborted
+        if (abortController.signal.aborted) {
+          return;
+        }
+        
         // Fallback to regular endpoint if streaming fails
         console.warn("Streaming failed, falling back to regular endpoint:", streamError);
         const response = await fetch(`${apiUrl}/api/chat`, {
@@ -194,6 +220,7 @@ export default function Home() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ message }),
+          signal: abortController.signal,
         });
 
         if (!response.ok) {
@@ -211,6 +238,12 @@ export default function Home() {
         );
       }
     } catch (err) {
+      // Don't show error if request was aborted
+      if (err instanceof Error && err.name === 'AbortError') {
+        // Request was cancelled, keep the partial message
+        return;
+      }
+      
       // Remove the placeholder message on error
       setMessages((prev) => prev.filter((msg) => msg.id !== assistantMessageId));
       const errorMessage =
@@ -221,6 +254,7 @@ export default function Home() {
       console.error("Error sending message:", err);
     } finally {
       setIsLoading(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -424,7 +458,26 @@ export default function Home() {
       {/* Input Area */}
       <footer className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-gray-800/60 sticky bottom-0 shadow-lg">
         <div className="max-w-5xl mx-auto px-6 py-6">
-          <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
+          <div className="flex items-center gap-3">
+            <div className="flex-1">
+              <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
+            </div>
+            {isLoading && (
+              <button
+                onClick={handleStopGeneration}
+                className="px-6 py-4 bg-red-500 hover:bg-red-600 text-white font-semibold rounded-2xl 
+                           transition-all duration-200 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]
+                           focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2
+                           dark:focus:ring-offset-gray-900 flex items-center gap-2 whitespace-nowrap"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                </svg>
+                Stop
+              </button>
+            )}
+          </div>
         </div>
       </footer>
     </div>
