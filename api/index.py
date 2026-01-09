@@ -41,8 +41,7 @@ def chat(request: ChatRequest):
                 {"role": "system", "content": "You are a supportive mental coach. Keep responses concise and helpful (2-4 sentences)."},
                 {"role": "user", "content": user_message}
             ],
-            max_completion_tokens=300,  # Limit response length for faster responses
-            temperature=0.7  # Balanced creativity and speed
+            max_completion_tokens=300  # Limit response length for faster responses
         )
         return {"reply": response.choices[0].message.content}
     except Exception as e:
@@ -63,8 +62,7 @@ def chat_stream(request: ChatRequest):
                     {"role": "user", "content": request.message}
                 ],
                 stream=True,
-                max_completion_tokens=300,  # Limit response length for faster responses
-                temperature=0.7  # Balanced creativity and speed
+                max_completion_tokens=300  # Limit response length for faster responses
             )
             
             for chunk in stream:
