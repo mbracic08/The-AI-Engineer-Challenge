@@ -36,14 +36,17 @@ def chat(request: ChatRequest):
     try:
         user_message = request.message
         response = client.chat.completions.create(
-            model="gpt-5",
+            model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "You are a supportive mental coach. Keep responses very brief and helpful (1-2 sentences maximum). Be concise and direct."},
+                {"role": "system", "content": "You are a supportive mental coach. Keep responses concise (1-2 sentences). Be brief and helpful."},
                 {"role": "user", "content": user_message}
             ],
-            max_completion_tokens=150  # Limit response length for faster responses
+            max_tokens=150  # Limit response length for faster responses
         )
-        return {"reply": response.choices[0].message.content}
+        reply_content = response.choices[0].message.content
+        if not reply_content:
+            reply_content = "I'm here to help. Could you tell me more about what's on your mind?"
+        return {"reply": reply_content}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error calling OpenAI API: {str(e)}")
 
@@ -56,13 +59,13 @@ def chat_stream(request: ChatRequest):
     def generate():
         try:
             stream = client.chat.completions.create(
-                model="gpt-5",
+                model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "You are a supportive mental coach. Keep responses very brief and helpful (1-2 sentences maximum). Be concise and direct."},
+                    {"role": "system", "content": "You are a supportive mental coach. Keep responses concise (1-2 sentences). Be brief and helpful."},
                     {"role": "user", "content": request.message}
                 ],
                 stream=True,
-                max_completion_tokens=150  # Limit response length for faster responses
+                max_tokens=150  # Limit response length for faster responses
             )
             
             for chunk in stream:
