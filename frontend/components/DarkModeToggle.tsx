@@ -12,6 +12,17 @@ export default function DarkModeToggle() {
     const stored = getStoredTheme();
     setTheme(stored);
     applyTheme(stored);
+
+    // Listen for system theme changes when theme is set to "system"
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+      if (stored === "system") {
+        applyTheme("system");
+      }
+    };
+    
+    mediaQuery.addEventListener("change", handleSystemThemeChange);
+    return () => mediaQuery.removeEventListener("change", handleSystemThemeChange);
   }, []);
 
   const toggleTheme = () => {
