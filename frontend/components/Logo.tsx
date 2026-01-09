@@ -22,7 +22,7 @@ export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" | "xl"
       {/* Animated gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
-      {/* Complex brain icon with spark/lightning and neurons */}
+      {/* Brain held gently by hands */}
       <svg 
         className="relative z-10 text-white" 
         width={sizeValue}
@@ -30,34 +30,42 @@ export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" | "xl"
         viewBox="0 0 24 24" 
         fill="none"
         stroke="currentColor"
-        strokeWidth={size === "lg" ? 1.2 : 1.5}
+        strokeWidth={size === "lg" || size === "xl" ? 1.2 : 1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        {/* Brain left hemisphere */}
-        <path d="M9.5 2A7.5 7.5 0 0 0 2 9.5c0 1.5.5 3 1.5 4.2v1.3c0 1.8 1.5 3.3 3.3 3.3.9 0 1.7-.4 2.2-1l.5-.8c.3-.5.9-.8 1.5-.8s1.2.3 1.5.8l.5.8c.5.6 1.3 1 2.2 1 1.8 0 3.3-1.5 3.3-3.3v-1.3c1-1.2 1.5-2.7 1.5-4.2A7.5 7.5 0 0 0 14.5 2c-1.3 0-2.5.5-3.4 1.3C10.2 2.5 9 2 7.7 2z" />
-        
-        {/* Brain details - neurons/connections */}
-        <circle cx="8.5" cy="7.5" r="1" fill="currentColor" opacity="0.7" />
-        <circle cx="15.5" cy="7.5" r="1" fill="currentColor" opacity="0.7" />
-        <circle cx="10.5" cy="10.5" r="0.8" fill="currentColor" opacity="0.6" />
-        <circle cx="13.5" cy="10.5" r="0.8" fill="currentColor" opacity="0.6" />
-        
-        {/* Neural connections */}
-        <path d="M8.5 7.5l2 3" strokeWidth="0.8" opacity="0.5" />
-        <path d="M15.5 7.5l-2 3" strokeWidth="0.8" opacity="0.5" />
-        
-        {/* Spark/lightning inside - represents ideas/thoughts */}
+        {/* Brain - larger, filling most of the space */}
         <path 
-          d="M12 6l-1.5 3h2.5l-1 2.5 1.5-3h-2.5l1-2.5z" 
+          d="M9.5 3A7.5 7.5 0 0 0 2 10.5c0 1.2.4 2.4 1.2 3.4v1c0 1.5 1.2 2.7 2.7 2.7.7 0 1.4-.3 1.8-.8l.4-.7c.2-.4.7-.7 1.2-.7s1 .3 1.2.7l.4.7c.4.5 1.1.8 1.8.8 1.5 0 2.7-1.2 2.7-2.7v-1c.8-1 1.2-2.2 1.2-3.4A7.5 7.5 0 0 0 14.5 3c-1.1 0-2.1.4-2.8 1.1C11 3.4 10 3 8.9 3z" 
           fill="currentColor"
-          opacity="0.9"
-          className="group-hover:opacity-100 transition-opacity group-hover:scale-110 transform origin-center transition-transform"
+          opacity="0.95"
         />
         
-        {/* Additional small sparks */}
-        <circle cx="9" cy="5" r="0.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity" />
-        <circle cx="15" cy="5" r="0.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity" />
+        {/* Brain details - subtle texture */}
+        <circle cx="9" cy="9" r="0.6" fill="white" opacity="0.4" />
+        <circle cx="15" cy="9" r="0.6" fill="white" opacity="0.4" />
+        <circle cx="11" cy="11.5" r="0.5" fill="white" opacity="0.3" />
+        <circle cx="13" cy="11.5" r="0.5" fill="white" opacity="0.3" />
+        
+        {/* Left hand - gently supporting from left side */}
+        <path 
+          d="M3 16.5c0-1 .5-2 1.5-2.5.8-.4 1.8-.4 2.5 0 .5.3.8.8.8 1.3v1.5c0 .8-.6 1.5-1.4 1.5-.4 0-.8-.2-1-.5l-.3-.4c-.2-.3-.5-.5-.9-.5s-.7.2-.9.5l-.3.4c-.2.3-.6.5-1 .5-.8 0-1.4-.7-1.4-1.5v-1.5z" 
+          fill="currentColor"
+          opacity="0.85"
+        />
+        {/* Left hand fingers */}
+        <path d="M4 15.5l-.5 1.5" strokeWidth="1.2" opacity="0.7" />
+        <path d="M5 15l-.3 1.8" strokeWidth="1" opacity="0.6" />
+        
+        {/* Right hand - gently supporting from right side */}
+        <path 
+          d="M21 16.5c0-1-.5-2-1.5-2.5-.8-.4-1.8-.4-2.5 0-.5.3-.8.8-.8 1.3v1.5c0 .8.6 1.5 1.4 1.5.4 0 .8-.2 1-.5l.3-.4c.2-.3.5-.5.9-.5s.7.2.9.5l.3.4c.2.3.6.5 1 .5.8 0 1.4-.7 1.4-1.5v-1.5z" 
+          fill="currentColor"
+          opacity="0.85"
+        />
+        {/* Right hand fingers */}
+        <path d="M20 15.5l.5 1.5" strokeWidth="1.2" opacity="0.7" />
+        <path d="M19 15l.3 1.8" strokeWidth="1" opacity="0.6" />
       </svg>
       
       {/* Shine effect */}
