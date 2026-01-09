@@ -123,11 +123,15 @@ export default function Home() {
     setError(null);
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      // Use relative API routes for Vercel deployment, fallback to absolute URL for local dev
+      const apiUrl = typeof window !== 'undefined' && window.location.hostname === 'localhost' 
+        ? (process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000")
+        : '';
+      const streamEndpoint = apiUrl ? `${apiUrl}/api/chat/stream` : '/api/chat/stream';
       
       // Try streaming first, fallback to regular endpoint if it fails
       try {
-        const response = await fetch(`${apiUrl}/api/chat/stream`, {
+        const response = await fetch(streamEndpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -188,7 +192,8 @@ export default function Home() {
       } catch (streamError) {
         // Fallback to regular endpoint if streaming fails
         console.warn("Streaming failed, falling back to regular endpoint:", streamError);
-        const response = await fetch(`${apiUrl}/api/chat`, {
+        const chatEndpoint = apiUrl ? `${apiUrl}/api/chat` : '/api/chat';
+        const response = await fetch(chatEndpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
