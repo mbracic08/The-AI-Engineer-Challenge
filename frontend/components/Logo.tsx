@@ -20,7 +20,7 @@ export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
       {/* Animated gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
-      {/* Brain icon with spark/lightning */}
+      {/* Complex brain icon with spark/lightning and neurons */}
       <svg 
         className="relative z-10 text-white" 
         width={sizeValue}
@@ -28,24 +28,34 @@ export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
         viewBox="0 0 24 24" 
         fill="none"
         stroke="currentColor"
-        strokeWidth={size === "lg" ? 1.5 : 2}
+        strokeWidth={size === "lg" ? 1.2 : 1.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        {/* Brain outline */}
-        <path d="M12 2C8 2 6 4 6 8c0 2 1 3 2 4v2c0 2 2 4 4 4s4-2 4-4v-2c1-1 2-2 2-4 0-4-2-6-6-6z" />
-        <path d="M8 10c-1 0-2 1-2 2s1 2 2 2" />
-        <path d="M16 10c1 0 2 1 2 2s-1 2-2 2" />
-        <path d="M9 14h6" />
-        <path d="M10 16h4" />
+        {/* Brain left hemisphere */}
+        <path d="M9.5 2A7.5 7.5 0 0 0 2 9.5c0 1.5.5 3 1.5 4.2v1.3c0 1.8 1.5 3.3 3.3 3.3.9 0 1.7-.4 2.2-1l.5-.8c.3-.5.9-.8 1.5-.8s1.2.3 1.5.8l.5.8c.5.6 1.3 1 2.2 1 1.8 0 3.3-1.5 3.3-3.3v-1.3c1-1.2 1.5-2.7 1.5-4.2A7.5 7.5 0 0 0 14.5 2c-1.3 0-2.5.5-3.4 1.3C10.2 2.5 9 2 7.7 2z" />
         
-        {/* Spark/lightning inside brain */}
+        {/* Brain details - neurons/connections */}
+        <circle cx="8.5" cy="7.5" r="1" fill="currentColor" opacity="0.7" />
+        <circle cx="15.5" cy="7.5" r="1" fill="currentColor" opacity="0.7" />
+        <circle cx="10.5" cy="10.5" r="0.8" fill="currentColor" opacity="0.6" />
+        <circle cx="13.5" cy="10.5" r="0.8" fill="currentColor" opacity="0.6" />
+        
+        {/* Neural connections */}
+        <path d="M8.5 7.5l2 3" strokeWidth="0.8" opacity="0.5" />
+        <path d="M15.5 7.5l-2 3" strokeWidth="0.8" opacity="0.5" />
+        
+        {/* Spark/lightning inside - represents ideas/thoughts */}
         <path 
-          d="M12 8l-2 4h3l-1 3 2-4h-3l1-3z" 
+          d="M12 6l-1.5 3h2.5l-1 2.5 1.5-3h-2.5l1-2.5z" 
           fill="currentColor"
-          opacity="0.8"
-          className="group-hover:opacity-100 transition-opacity"
+          opacity="0.9"
+          className="group-hover:opacity-100 transition-opacity group-hover:scale-110 transform origin-center transition-transform"
         />
+        
+        {/* Additional small sparks */}
+        <circle cx="9" cy="5" r="0.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity" />
+        <circle cx="15" cy="5" r="0.5" fill="currentColor" opacity="0.6" className="group-hover:opacity-100 transition-opacity" />
       </svg>
       
       {/* Shine effect */}
