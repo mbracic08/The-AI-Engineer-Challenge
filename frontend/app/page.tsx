@@ -422,7 +422,7 @@ export default function Home() {
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
       {/* Input Area */}
-      <footer className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-gray-800/60 sticky bottom-0 shadow-lg">
+      <footer className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-gray-800/60 sticky bottom-0">
         <div className="max-w-5xl mx-auto px-6 py-6">
           <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
         </div>
