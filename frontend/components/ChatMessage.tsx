@@ -13,7 +13,7 @@ export default function ChatMessage({ message }: ChatMessageProps) {
   const isUser = message.role === "user";
 
   return (
-    <div className={`flex items-start gap-3 ${isUser ? "justify-end" : "justify-start"} animate-in fade-in slide-in-from-bottom-4 duration-500`}>
+    <div className={`flex items-start gap-3 ${isUser ? "justify-end" : "justify-start"} animate-fade-in`}>
       {!isUser && (
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-md">
           <span className="text-white text-sm font-semibold">AI</span>

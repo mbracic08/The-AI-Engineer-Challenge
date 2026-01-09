@@ -93,7 +93,7 @@ export default function Home() {
       <main className="flex-1 overflow-y-auto">
         <div className="max-w-4xl mx-auto px-4 py-6">
           {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-center py-12 animate-in fade-in duration-700">
+            <div className="flex flex-col items-center justify-center h-full text-center py-12 animate-fade-in">
               <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-10 shadow-2xl max-w-lg border border-gray-200/50 dark:border-gray-700/50">
                 <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center shadow-lg animate-pulse">
                   <span className="text-4xl">💭</span>
@@ -127,7 +127,7 @@ export default function Home() {
               <ChatMessage key={index} message={message} />
             ))}
             {isLoading && (
-              <div className="flex items-start gap-3 justify-start animate-in fade-in slide-in-from-bottom-4 duration-300">
+              <div className="flex items-start gap-3 justify-start animate-fade-in">
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center shadow-md">
                   <span className="text-white text-sm font-semibold">AI</span>
                 </div>
