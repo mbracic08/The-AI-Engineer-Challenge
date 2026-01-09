@@ -49,12 +49,12 @@ def chat(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"Error calling OpenAI API: {str(e)}")
 
 @app.post("/api/chat/stream")
-def chat_stream(request: ChatRequest):
+async def chat_stream(request: ChatRequest):
     """Streaming endpoint for real-time response generation"""
     if not os.getenv("OPENAI_API_KEY"):
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
     
-    def generate():
+    async def generate():
         try:
             stream = client.chat.completions.create(
                 model="gpt-5",
@@ -68,9 +68,11 @@ def chat_stream(request: ChatRequest):
             )
             
             for chunk in stream:
-                if chunk.choices[0].delta.content:
-                    token = chunk.choices[0].delta.content
-                    yield f"data: {json.dumps({'token': token})}\n\n"
+                if chunk.choices and len(chunk.choices) > 0:
+                    delta = chunk.choices[0].delta
+                    if hasattr(delta, 'content') and delta.content:
+                        token = delta.content
+                        yield f"data: {json.dumps({'token': token})}\n\n"
             
             yield f"data: {json.dumps({'done': True})}\n\n"
         except Exception as e:
