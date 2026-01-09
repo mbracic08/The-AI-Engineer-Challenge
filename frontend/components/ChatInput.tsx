@@ -96,9 +96,6 @@ export default function ChatInput({ onSendMessage, disabled }: ChatInputProps) {
                 d="M13 7l5 5m0 0l-5 5m5-5H6"
               />
             </svg>
-            
-            {/* Shine effect on hover */}
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
           </button>
         </div>
       </div>
