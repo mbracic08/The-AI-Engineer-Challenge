@@ -299,7 +299,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Logo size="md" />
+              <Logo size="lg" />
               <div>
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 tracking-tight">
                   Mental Coach
@@ -347,7 +347,7 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center h-full text-center py-16 animate-fade-in">
               <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl p-12 shadow-2xl max-w-2xl border border-gray-200/60 dark:border-gray-800/60">
                 <div className="mx-auto mb-8 flex justify-center">
-                  <Logo size="lg" />
+                  <Logo size="xl" />
                 </div>
                 <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6 tracking-tight">
                   Welcome to Mental Coach!

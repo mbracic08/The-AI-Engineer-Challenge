@@ -1,19 +1,21 @@
 "use client";
 
-export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
+export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" | "xl" }) {
   const sizes = {
     sm: "w-8 h-8 text-xs",
     md: "w-12 h-12 text-sm",
-    lg: "w-24 h-24 text-2xl",
+    lg: "w-16 h-16 text-lg",
+    xl: "w-24 h-24 text-2xl",
   };
 
   const iconSizes = {
     sm: 16,
     md: 24,
-    lg: 48,
+    lg: 32,
+    xl: 48,
   };
 
-  const sizeValue = size === "sm" ? iconSizes.sm : size === "md" ? iconSizes.md : iconSizes.lg;
+  const sizeValue = size === "sm" ? iconSizes.sm : size === "md" ? iconSizes.md : size === "lg" ? iconSizes.lg : iconSizes.xl;
 
   return (
     <div className={`${sizes[size]} rounded-2xl bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center shadow-xl relative overflow-hidden group hover:shadow-2xl transition-all duration-300`}>
