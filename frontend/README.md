@@ -91,9 +91,17 @@ frontend/
 
 ## Configuration
 
-The frontend is configured to proxy API requests to `http://localhost:8000` during development. This is handled by the `next.config.js` rewrites configuration.
+### Environment Variables
 
-For production deployment on Vercel, you'll need to update the API URL configuration based on your backend deployment setup.
+The frontend uses environment variables to configure the backend API URL. Create a `.env.local` file in the `frontend` directory (you can copy from `.env.local.example`):
+
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+
+For local development, this defaults to `http://localhost:8000` if not set.
+
+For production deployment on Vercel, set the `NEXT_PUBLIC_API_URL` environment variable in your Vercel project settings to point to your deployed backend URL.
 
 ## Troubleshooting
 
