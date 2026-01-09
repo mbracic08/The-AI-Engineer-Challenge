@@ -2,33 +2,57 @@
 
 export default function Logo({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const sizes = {
-    sm: "w-8 h-8",
-    md: "w-10 h-10",
-    lg: "w-20 h-20",
+    sm: "w-8 h-8 text-xs",
+    md: "w-12 h-12 text-sm",
+    lg: "w-24 h-24 text-2xl",
   };
 
+  const iconSizes = {
+    sm: 16,
+    md: 24,
+    lg: 48,
+  };
+
+  const sizeValue = size === "sm" ? iconSizes.sm : size === "md" ? iconSizes.md : iconSizes.lg;
+
   return (
-    <div className={`${sizes[size]} rounded-xl bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center shadow-lg relative overflow-hidden group`}>
+    <div className={`${sizes[size]} rounded-2xl bg-gradient-to-br from-purple-500 via-indigo-500 to-blue-500 flex items-center justify-center shadow-xl relative overflow-hidden group hover:shadow-2xl transition-all duration-300`}>
       {/* Animated gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-400 via-indigo-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       
-      {/* Brain/Mind icon */}
+      {/* Brain icon with spark/lightning */}
       <svg 
-        className="relative z-10 w-6 h-6 text-white" 
-        fill="none" 
+        className="relative z-10 text-white" 
+        width={sizeValue}
+        height={sizeValue}
         viewBox="0 0 24 24" 
+        fill="none"
         stroke="currentColor"
-        strokeWidth={2}
+        strokeWidth={size === "lg" ? 1.5 : 2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
+        {/* Brain outline */}
+        <path d="M12 2C8 2 6 4 6 8c0 2 1 3 2 4v2c0 2 2 4 4 4s4-2 4-4v-2c1-1 2-2 2-4 0-4-2-6-6-6z" />
+        <path d="M8 10c-1 0-2 1-2 2s1 2 2 2" />
+        <path d="M16 10c1 0 2 1 2 2s-1 2-2 2" />
+        <path d="M9 14h6" />
+        <path d="M10 16h4" />
+        
+        {/* Spark/lightning inside brain */}
         <path 
-          strokeLinecap="round" 
-          strokeLinejoin="round" 
-          d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" 
+          d="M12 8l-2 4h3l-1 3 2-4h-3l1-3z" 
+          fill="currentColor"
+          opacity="0.8"
+          className="group-hover:opacity-100 transition-opacity"
         />
       </svg>
       
       {/* Shine effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+      
+      {/* Pulsing glow effect */}
+      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-purple-400/0 to-blue-400/0 group-hover:from-purple-400/20 group-hover:to-blue-400/20 transition-all duration-500 animate-pulse"></div>
     </div>
   );
 }

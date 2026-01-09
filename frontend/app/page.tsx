@@ -270,16 +270,16 @@ export default function Home() {
     <div className="flex flex-col h-screen relative">
       <AnimatedBackground />
       {/* Header */}
-      <header className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md shadow-sm border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 py-5">
+      <header className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-md border-b border-gray-200/60 dark:border-gray-800/60 sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <Logo size="md" />
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400">
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent dark:from-blue-400 dark:via-indigo-400 dark:to-purple-400 tracking-tight">
                   Mental Coach
                 </h1>
-                <p className="text-sm text-gray-600 dark:text-gray-300 mt-0.5">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5 font-medium">
                   Your supportive AI companion
                 </p>
               </div>
@@ -317,17 +317,17 @@ export default function Home() {
 
       {/* Messages Area */}
       <main ref={mainRef} className="flex-1 overflow-y-auto">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="max-w-5xl mx-auto px-6 py-8">
           {messages.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-full text-center py-12 animate-fade-in">
-              <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-3xl p-10 shadow-2xl max-w-lg border border-gray-200/50 dark:border-gray-700/50">
-                <div className="mx-auto mb-6 flex justify-center">
+            <div className="flex flex-col items-center justify-center h-full text-center py-16 animate-fade-in">
+              <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl p-12 shadow-2xl max-w-2xl border border-gray-200/60 dark:border-gray-800/60">
+                <div className="mx-auto mb-8 flex justify-center">
                   <Logo size="lg" />
                 </div>
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">
+                <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6 tracking-tight">
                   Welcome to Mental Coach!
                 </h2>
-                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-8 text-lg">
                   I'm your supportive AI companion. Start a conversation and I'll help you with stress management, motivation, building habits, and growing your confidence.
                 </p>
                 <div className="flex flex-wrap gap-2 justify-center mb-6">
@@ -397,8 +397,8 @@ export default function Home() {
       {toast && <Toast message={toast} onClose={() => setToast(null)} />}
 
       {/* Input Area */}
-      <footer className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border-t border-gray-200/50 dark:border-gray-700/50 sticky bottom-0">
-        <div className="max-w-4xl mx-auto px-4 py-5">
+      <footer className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border-t border-gray-200/60 dark:border-gray-800/60 sticky bottom-0 shadow-lg">
+        <div className="max-w-5xl mx-auto px-6 py-6">
           <ChatInput onSendMessage={handleSendMessage} disabled={isLoading} />
         </div>
       </footer>
