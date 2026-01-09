@@ -124,28 +124,29 @@ export default function Home() {
 
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-      const response = await fetch(`${apiUrl}/api/chat/stream`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ message }),
-      });
+      
+      // Try streaming first, fallback to regular endpoint if it fails
+      try {
+        const response = await fetch(`${apiUrl}/api/chat/stream`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message }),
+        });
 
-      if (!response.ok) {
-        const errorText = await response.text().catch(() => "");
-        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
-      }
+        if (!response.ok) {
+          throw new Error(`Streaming failed with status ${response.status}`);
+        }
 
-      if (!response.body) {
-        throw new Error("Response body is null");
-      }
+        if (!response.body) {
+          throw new Error("Response body is null");
+        }
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let accumulatedContent = "";
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let accumulatedContent = "";
 
-      {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
@@ -171,19 +172,43 @@ export default function Home() {
                   );
                 } else if (data.done) {
                   // Streaming complete
-                  break;
+                  return;
                 } else if (data.error) {
                   throw new Error(data.error);
                 }
               } catch (e) {
                 // Skip invalid JSON - might be partial data
-                if (line.trim().length > 10) {
+                if (line.trim().length > 10 && !(e instanceof SyntaxError)) {
                   console.warn("Failed to parse SSE data:", line, e);
                 }
               }
             }
           }
         }
+      } catch (streamError) {
+        // Fallback to regular endpoint if streaming fails
+        console.warn("Streaming failed, falling back to regular endpoint:", streamError);
+        const response = await fetch(`${apiUrl}/api/chat`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.detail || `HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === assistantMessageId
+              ? { ...msg, content: data.reply }
+              : msg
+          )
+        );
       }
     } catch (err) {
       // Remove the placeholder message on error
