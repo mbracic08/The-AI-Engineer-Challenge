@@ -131,25 +131,33 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorText = await response.text().catch(() => "");
+        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
       }
 
-      const reader = response.body?.getReader();
+      if (!response.body) {
+        throw new Error("Response body is null");
+      }
+
+      const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let accumulatedContent = "";
 
-      if (reader) {
+      {
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
 
-          const chunk = decoder.decode(value);
-          const lines = chunk.split("\n\n");
+          const chunk = decoder.decode(value, { stream: true });
+          const lines = chunk.split("\n");
 
           for (const line of lines) {
-            if (line.startsWith("data: ")) {
+            if (line.trim() && line.startsWith("data: ")) {
               try {
-                const data = JSON.parse(line.slice(6));
+                const jsonStr = line.slice(6).trim();
+                if (!jsonStr) continue;
+                
+                const data = JSON.parse(jsonStr);
                 if (data.token) {
                   accumulatedContent += data.token;
                   setMessages((prev) =>
@@ -166,7 +174,10 @@ export default function Home() {
                   throw new Error(data.error);
                 }
               } catch (e) {
-                // Skip invalid JSON
+                // Skip invalid JSON - might be partial data
+                if (line.trim().length > 10) {
+                  console.warn("Failed to parse SSE data:", line, e);
+                }
               }
             }
           }

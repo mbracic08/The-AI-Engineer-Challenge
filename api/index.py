@@ -49,12 +49,12 @@ def chat(request: ChatRequest):
         raise HTTPException(status_code=500, detail=f"Error calling OpenAI API: {str(e)}")
 
 @app.post("/api/chat/stream")
-async def chat_stream(request: ChatRequest):
+def chat_stream(request: ChatRequest):
     """Streaming endpoint for real-time response generation"""
     if not os.getenv("OPENAI_API_KEY"):
         raise HTTPException(status_code=500, detail="OPENAI_API_KEY not configured")
     
-    async def generate():
+    def generate():
         try:
             stream = client.chat.completions.create(
                 model="gpt-5",
