@@ -38,10 +38,10 @@ def chat(request: ChatRequest):
         response = client.chat.completions.create(
             model="gpt-5",
             messages=[
-                {"role": "system", "content": "You are a supportive mental coach. Keep responses concise and helpful (2-4 sentences)."},
+                {"role": "system", "content": "You are a supportive mental coach. Keep responses very brief and helpful (1-2 sentences maximum). Be concise and direct."},
                 {"role": "user", "content": user_message}
             ],
-            max_completion_tokens=300  # Limit response length for faster responses
+            max_completion_tokens=150  # Limit response length for faster responses
         )
         return {"reply": response.choices[0].message.content}
     except Exception as e:
@@ -58,11 +58,11 @@ def chat_stream(request: ChatRequest):
             stream = client.chat.completions.create(
                 model="gpt-5",
                 messages=[
-                    {"role": "system", "content": "You are a supportive mental coach. Keep responses concise and helpful (2-4 sentences)."},
+                    {"role": "system", "content": "You are a supportive mental coach. Keep responses very brief and helpful (1-2 sentences maximum). Be concise and direct."},
                     {"role": "user", "content": request.message}
                 ],
                 stream=True,
-                max_completion_tokens=300  # Limit response length for faster responses
+                max_completion_tokens=150  # Limit response length for faster responses
             )
             
             for chunk in stream:
